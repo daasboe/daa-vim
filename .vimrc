@@ -76,6 +76,7 @@
             Bundle 'godlygeek/csapprox'
             Bundle 'jistr/vim-nerdtree-tabs'
             Bundle 'flazz/vim-colorschemes'
+            Bundle 'jpo/vim-railscasts-theme'
         endif
 
     " General Programming
@@ -91,6 +92,7 @@
             Bundle 'godlygeek/tabular'
             Bundle 'majutsushi/tagbar'
             Bundle 'Shougo/neocomplcache'
+            Bundle 'Shougo/neocomplcache-snippets-complete'
         endif
 
     " PHP
@@ -125,7 +127,7 @@
             Bundle 'tpope/vim-rails'
         endif
 
-    " Misc
+    " Misc"{"}
         if count(g:spf13_bundle_groups, 'misc')
             Bundle 'spf13/vim-markdown'
             Bundle 'spf13/vim-preview'
@@ -169,7 +171,8 @@
 " }
 
 " Vim UI {
-    color solarized                 " load a colorscheme
+    colorscheme railscasts
+    "color solarized                 " load a colorscheme
         let g:solarized_termtrans=1
         let g:solarized_termcolors=256
         let g:solarized_contrast="high"
