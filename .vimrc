@@ -122,7 +122,7 @@
 
     " Ruby
         if count(g:spf13_bundle_groups, 'ruby')
-            Bundle 'rails.vim'
+            Bundle 'tpope/vim-rails'
         endif
 
     " Misc
@@ -152,7 +152,7 @@
     set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
     set virtualedit=onemore         " allow for cursor beyond last character
     set history=1000                " Store a ton of history (default is 20)
-    set spell                       " spell checking on
+    "set spell                       " spell checking on
     set hidden                      " allow buffer switching without saving
 
     " Setting up the directories {
@@ -368,7 +368,7 @@
     " SnipMate {
         " Setting the author var
         " If forking, please overwrite in your .vimrc.local file
-        let g:snips_author = 'Steve Francia <steve.francia@gmail.com>'
+      "  let g:snips_author = 'Steve Francia <steve.francia@gmail.com>'
         " Shortcut for reloading snippets, useful when developing
         nnoremap ,smr <esc>:exec ReloadAllSnippets()<cr>
     " }
@@ -381,7 +381,7 @@
         let NERDTreeShowBookmarks=1
         let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
         let NERDTreeChDirMode=0
-        let NERDTreeQuitOnOpen=1
+        let NERDTreeQuitOnOpen=0
         let NERDTreeShowHidden=1
         let NERDTreeKeepTreeInNewTab=1
     " }
