@@ -1,4 +1,4 @@
-" Modeline and Notes {
+" Modeline and Notes {"{
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
 "                    __ _ _____              _
@@ -13,19 +13,21 @@
 "   recommend picking out the parts you want and understand.
 "
 "   You can find me at http://spf13.com
-" }
+" }"}
 
-" Environment {
+" Environment { 
     " Basics {
         set nocompatible        " must be first line
         set background=dark     " Assume a dark background
+        let $LANG = "en"
     " }
 
-    " Windows Compatible {
+    " Windows Compatible  {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier. 
         if has('win32') || has('win64')
           set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+          cd ~/     " Change directory to home
         endif
     " }
     "
@@ -216,19 +218,19 @@
     set scrolljump=5                " lines to scroll when cursor leaves screen
     set scrolloff=3                 " minimum lines to keep above and below cursor
     set foldenable                  " auto fold code
-    set list
+    set nolist                      " Do not list trailing whitespace
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 
 
 " }
 
 " Formatting {
-    set nowrap                      " wrap long lines
+    set wrap                        " wrap long lines
     set autoindent                  " indent at the same level of the previous line
-    set shiftwidth=4                " use indents of 4 spaces
+    set shiftwidth=2                " use indents of 4 spaces
     set expandtab                   " tabs are spaces, not tabs
-    set tabstop=4                   " an indentation every four columns
-    set softtabstop=4               " let backspace delete indent
+    set tabstop=2                   " an indentation every four columns
+    set softtabstop=2               " let backspace delete indent
     "set matchpairs+=<:>                " match, to be used with % 
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
@@ -315,6 +317,12 @@
 
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
+
+    " Open git vimrc from wherever
+    map <leader>eo :e ~/.daa-vim/.vimrc<CR>
+    
+    " Remap esc
+    inoremap jj <Esc>
 " }
 
 " Plugins {
@@ -533,9 +541,12 @@
     if has('gui_running')
         set guioptions-=T           " remove the toolbar
         set lines=40                " 40 lines of text instead of 24,
-        set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
+        set guifont=Consolas
         if has('gui_macvim')
             set transparency=5          " Make the window slightly transparent
+        endif
+        if has('win32') || has('win64')
+            au GUIEnter * simalt ~x     " Enter fullscreen on open
         endif
     else
         "set term=builtin_ansi       " Make arrow and other keys work
