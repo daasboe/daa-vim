@@ -1,4 +1,4 @@
-" Modeline and Notes {"{
+" Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
 "                    __ _ _____              _
@@ -13,7 +13,7 @@
 "   recommend picking out the parts you want and understand.
 "
 "   You can find me at http://spf13.com
-" }"}
+" }
 
 " Environment { 
     " Basics {
@@ -79,6 +79,8 @@
             Bundle 'jistr/vim-nerdtree-tabs'
             Bundle 'flazz/vim-colorschemes'
             Bundle 'jpo/vim-railscasts-theme'
+            Bundle "chrismetcalf/vim-yankring"
+            Bundle  'tpope/vim-repeat'
         endif
 
     " General Programming
@@ -205,7 +207,8 @@
 
     set backspace=indent,eol,start  " backspace for dummies
     set linespace=0                 " No extra spaces between rows
-    set nu                          " Line numbers on
+    "set nu                         " Line numbers on
+    set relativenumber              " Relative line numbers
     set showmatch                   " show matching brackets/parenthesis
     set incsearch                   " find as you type search
     set hlsearch                    " highlight search terms
