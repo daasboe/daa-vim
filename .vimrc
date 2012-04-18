@@ -18,6 +18,7 @@
 " Environment { 
     " Basics {
         set nocompatible        " must be first line
+        set encoding=utf-8
         set background=dark     " Assume a dark background
         let $LANG = "en"
     " }
@@ -326,6 +327,9 @@
     
     " Remap esc
     inoremap jj <Esc>
+
+    " Remap fold toggle
+    noremap <space> za
 " }
 
 " Plugins {
