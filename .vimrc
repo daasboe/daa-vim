@@ -176,7 +176,7 @@
 " }
 
 " Vim UI {
-    colorscheme railscasts
+    colorscheme candycode
     "color solarized                 " load a colorscheme
         let g:solarized_termtrans=1
         let g:solarized_termcolors=256
@@ -290,7 +290,7 @@
     nmap <leader>f9 :set foldlevel=9<CR>
 
     "clearing highlighted search
-    nmap <silent> <leader>/ :nohlsearch<CR>
+    nmap <silent> <leader><space> :nohlsearch<CR>
 
     " Shortcuts
     " Change Working Directory to that of the current file
@@ -323,13 +323,16 @@
     map <Leader>= <C-w>=
 
     " Open git vimrc from wherever
-    map <leader>eo :e ~/.daa-vim/.vimrc<CR>
+    map <leader>eo <C-w><C-v><C-w><C-l>:e ~/.daa-vim/.vimrc<CR>
     
     " Remap esc
     inoremap jj <Esc>
 
     " Remap fold toggle
     noremap <space> za
+    
+    " Remap search button
+    noremap - /
 " }
 
 " Plugins {
