@@ -222,6 +222,8 @@
     set scrolljump=5                " lines to scroll when cursor leaves screen
     set scrolloff=3                 " minimum lines to keep above and below cursor
     set foldenable                  " auto fold code
+    set foldmarker={,}              " Set fold marker
+    set foldmethod=marker           " Fold method
     set nolist                      " Do not list trailing whitespace
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 
@@ -333,6 +335,12 @@
     
     " Remap search button
     noremap - /
+
+    " Easy save
+    noremap <leader>w :w<CR>
+
+    " Easy save
+    noremap <leader>W :w!<CR>
 " }
 
 " Plugins {
@@ -486,7 +494,7 @@
      "}
 
      " neocomplcache {
-        let g:neocomplcache_enable_at_startup = 1
+        let g:neocomplcache_enable_at_startup = 0
         let g:neocomplcache_enable_camel_case_completion = 1
         let g:neocomplcache_enable_smart_case = 1
         let g:neocomplcache_enable_underbar_completion = 1
