@@ -24,14 +24,30 @@
     " }
 
     " Windows Compatible  {
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier. 
-        if has('win32') || has('win64')
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-          cd ~/     " Change directory to home
-        endif
+    " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
+    " across (heterogeneous) systems easier. 
+    if has('win32') || has('win64')
+      set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+      cd ~/     " Change directory to home
+    endif
     " }
     "
+    " Windows specific path {
+    if has('win32') || has ('win64')
+      "List directories to add to path
+      let alist = [
+            \ "C:\RailsInstaller\Git\bin",
+            \ "C:\RailsInstaller\Ruby1.9.3\bin",
+            \ "C:\RailsInstaller\Git\cmd"]
+
+      for item in alist
+        if isdirectory(item)
+          let $PATH.=';' . item
+        endif
+      endfor
+    endif
+    " }
+
     " Setup Bundle Support {
     " The next two lines ensure that the ~/.vim/bundle/ system works
         set rtp+=~/.vim/bundle/vundle
@@ -80,8 +96,8 @@
             Bundle 'jistr/vim-nerdtree-tabs'
             Bundle 'flazz/vim-colorschemes'
             Bundle 'jpo/vim-railscasts-theme'
-            Bundle "chrismetcalf/vim-yankring"
-            Bundle  'tpope/vim-repeat'
+            Bundle 'chrismetcalf/vim-yankring'
+            Bundle 'tpope/vim-repeat'
         endif
 
     " General Programming
@@ -98,6 +114,7 @@
             Bundle 'majutsushi/tagbar'
             Bundle 'Shougo/neocomplcache'
             Bundle 'Shougo/neocomplcache-snippets-complete'
+            Bundle 'ervandew/supertab'
         endif
 
     " PHP
@@ -341,6 +358,19 @@
 
     " Easy save
     noremap <leader>W :w!<CR>
+
+    " Clipboard stuff
+    noremap <leader>y "*y
+    noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
+    noremap <leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
+    
+    " Make backspace work sanely in visual mode
+     vnoremap <bs> x
+
+    " Select entire buffer
+    nnoremap vaa ggvGg_
+    nnoremap Vaa ggVG
+
 " }
 
 " Plugins {
@@ -402,11 +432,12 @@
         nnoremap ,smr <esc>:exec ReloadAllSnippets()<cr>
     " }
 
-    " NerdTree {
+    " NerdTree { 
         map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
         map <leader>e :NERDTreeFind<CR>
         nmap <leader>nt :NERDTreeFind<CR>
 
+        let NERDChristmasTree = 1
         let NERDTreeShowBookmarks=1
         let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
         let NERDTreeChDirMode=0
@@ -491,7 +522,7 @@
         nnoremap <silent> <leader>gb :Gblame<CR>
         nnoremap <silent> <leader>gl :Glog<CR>
         nnoremap <silent> <leader>gp :Git push<CR>
-     "}
+      "}
 
      " neocomplcache {
         let g:neocomplcache_enable_at_startup = 0
@@ -551,6 +582,23 @@
 
      " }
 
+     " Supertab {
+     "let g:SuperTabDefaultCompletionType = "<c-n>"
+     "let g:SuperTabLongestHighlight = 1
+
+     "}
+  
+" }
+
+" Filetypes {
+    " Ruby {
+        autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+        autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+        autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+        autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+        "improve autocomplete menu color
+        highlight Pmenu ctermbg=238 gui=bold
+    "}
 
 " }
 
@@ -571,13 +619,13 @@
     endif
 " }
 
- " Functions {
+ " Functions { 
 
 function! InitializeDirectories()
     let separator = "."
     let parent = $HOME
     let prefix = '.vim'
-    let dir_list = {
+    let dir_list = { 
                 \ 'backup': 'backupdir',
                 \ 'views': 'viewdir',
                 \ 'swap': 'directory' }
@@ -630,3 +678,5 @@ endfunction
         endif
     endif
 " }
+
+
