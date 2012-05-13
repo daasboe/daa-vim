@@ -36,9 +36,9 @@
     if has('win32') || has ('win64')
       "List directories to add to path
       let alist = [
-            \ "C:\RailsInstaller\Git\bin",
-            \ "C:\RailsInstaller\Ruby1.9.3\bin",
-            \ "C:\RailsInstaller\Git\cmd"]
+            \ 'C:\RailsInstaller\Git\bin',
+            \ 'C:\RailsInstaller\Ruby1.9.3\bin',
+            \ 'C:\RailsInstaller\Git\cmd']
 
       for item in alist
         if isdirectory(item)
