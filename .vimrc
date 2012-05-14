@@ -83,7 +83,7 @@
     " General
         if count(g:spf13_bundle_groups, 'general')
             Bundle 'scrooloose/nerdtree'
-            Bundle 'altercation/vim-colors-solarized'
+            "Bundle 'altercation/vim-colors-solarized'
             Bundle 'spf13/vim-colors'
             Bundle 'tpope/vim-surround'
             Bundle 'AutoClose'
@@ -96,8 +96,8 @@
             Bundle 'jistr/vim-nerdtree-tabs'
             Bundle 'flazz/vim-colorschemes'
             Bundle 'jpo/vim-railscasts-theme'
-            Bundle 'chrismetcalf/vim-yankring'
             Bundle 'tpope/vim-repeat'
+            Bundle 'widox/vim-buffer-explorer-plugin'
         endif
 
     " General Programming
@@ -112,8 +112,8 @@
             Bundle 'scrooloose/nerdcommenter'
             Bundle 'godlygeek/tabular'
             Bundle 'majutsushi/tagbar'
-            Bundle 'Shougo/neocomplcache'
-            Bundle 'Shougo/neocomplcache-snippets-complete'
+            "Bundle 'Shougo/neocomplcache'
+            "Bundle 'Shougo/neocomplcache-snippets-complete'
             Bundle 'ervandew/supertab'
         endif
 
@@ -185,6 +185,7 @@
             set undofile                "so is persistent undo ...
             set undolevels=1000         "maximum number of changes that can be undone
             set undoreload=10000        "maximum number lines to save for undo on a buffer reload
+            set noswapfile              " It's 2012, Vim.
         endif
         " Could use * rather than *.*, but I prefer to leave .files unsaved
         au BufWinLeave *.* silent! mkview  "make vim save view (state) (folds, cursor, etc)
@@ -243,6 +244,14 @@
     set foldmethod=marker           " Fold method
     set nolist                      " Do not list trailing whitespace
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
+
+augroup cline
+    au!
+    au WinLeave * set nocursorline
+    au WinEnter * set cursorline
+    au InsertEnter * set nocursorline
+    au InsertLeave * set cursorline
+augroup END
 
 
 " }
@@ -367,10 +376,16 @@
     " Make backspace work sanely in visual mode
      vnoremap <bs> x
 
-    " Select entire buffer
-    nnoremap vaa ggvGg_
-    nnoremap Vaa ggVG
+     " Keep search matches in the middle of the window.
+     nnoremap n nzzzv
+     nnoremap N Nzzzv
 
+     " Same when jumping around
+     nnoremap g; g;zz
+     nnoremap g, g,zz
+
+     " Toggle "keep current line in the center of the screen" mode
+     nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 " }
 
 " Plugins {
@@ -407,7 +422,7 @@
 
         " automatically open and close the popup menu / preview window
         au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-        set completeopt=menu,preview,longest
+        set completeopt=menuone,preview,longest
     " }
 
     " Ctags {
@@ -524,67 +539,67 @@
         nnoremap <silent> <leader>gp :Git push<CR>
       "}
 
-     " neocomplcache {
-        let g:neocomplcache_enable_at_startup = 0
-        let g:neocomplcache_enable_camel_case_completion = 1
-        let g:neocomplcache_enable_smart_case = 1
-        let g:neocomplcache_enable_underbar_completion = 1
-        let g:neocomplcache_min_syntax_length = 3
-        let g:neocomplcache_enable_auto_delimiter = 1
+     "" neocomplcache {
+        "let g:neocomplcache_enable_at_startup = 0
+        "let g:neocomplcache_enable_camel_case_completion = 1
+        "let g:neocomplcache_enable_smart_case = 1
+        "let g:neocomplcache_enable_underbar_completion = 1
+        "let g:neocomplcache_min_syntax_length = 3
+        "let g:neocomplcache_enable_auto_delimiter = 1
 
-        " AutoComplPop like behavior.
-        let g:neocomplcache_enable_auto_select = 0
+        "" AutoComplPop like behavior.
+        "let g:neocomplcache_enable_auto_select = 0
 
-        " SuperTab like snippets behavior.
-        imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+        "" SuperTab like snippets behavior.
+        "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
-        " Plugin key-mappings.
-        imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-        smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-        inoremap <expr><C-g>     neocomplcache#undo_completion()
-        inoremap <expr><C-l>     neocomplcache#complete_common_string()
+        "" Plugin key-mappings.
+        "imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+        "smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+        "inoremap <expr><C-g>     neocomplcache#undo_completion()
+        "inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
 
-        " <CR>: close popup 
-        " <s-CR>: close popup and save indent.
-        inoremap <expr><CR>  pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-        inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup() "\<CR>" : "\<CR>" 
-        " <TAB>: completion.
-        inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+        "" <CR>: close popup 
+        "" <s-CR>: close popup and save indent.
+        "inoremap <expr><CR>  pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+        "inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup() "\<CR>" : "\<CR>" 
+        "" <TAB>: completion.
+        "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-        " <C-h>, <BS>: close popup and delete backword char.
-        inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-        inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-        inoremap <expr><C-y>  neocomplcache#close_popup()
-        inoremap <expr><C-e>  neocomplcache#cancel_popup()
+        "" <C-h>, <BS>: close popup and delete backword char.
+        "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+        "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+        "inoremap <expr><C-y>  neocomplcache#close_popup()
+        "inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
-        " Enable omni completion.
-        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+        "" Enable omni completion.
+        "autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        "autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        "autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        "autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-        " Enable heavy omni completion.
-        if !exists('g:neocomplcache_omni_patterns')
-            let g:neocomplcache_omni_patterns = {}
-        endif
-        let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-        "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-        let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-        let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-        let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+        "" Enable heavy omni completion.
+        "if !exists('g:neocomplcache_omni_patterns')
+            "let g:neocomplcache_omni_patterns = {}
+        "endif
+        "let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+        ""autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+        "let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+        "let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+        "let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
-        " For snippet_complete marker.
-        if has('conceal')
-            set conceallevel=2 concealcursor=i
-        endif
+        "" For snippet_complete marker.
+        "if has('conceal')
+            "set conceallevel=2 concealcursor=i
+        "endif
 
-     " }
+     "" }
 
-     " Supertab {
-     "let g:SuperTabDefaultCompletionType = "<c-n>"
-     "let g:SuperTabLongestHighlight = 1
+      "Supertab {
+     let g:SuperTabDefaultCompletionType = "<c-n>"
+     let g:SuperTabLongestHighlight = 1
 
      "}
   
