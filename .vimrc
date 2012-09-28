@@ -86,7 +86,8 @@
             "Bundle 'altercation/vim-colors-solarized'
             Bundle 'spf13/vim-colors'
             Bundle 'tpope/vim-surround'
-            Bundle 'AutoClose'
+            Bundle 'Raimondi/delimitMate/'
+            "Bundle 'AutoClose'
             Bundle 'kien/ctrlp.vim'
             Bundle 'vim-scripts/sessionman.vim'
             Bundle 'matchit.zip'
@@ -462,9 +463,13 @@ augroup END
     " }
 
     " Tabularize {
-        if exists(":Tabularize")
+        "if exists(":Tabularize")
           nmap <Leader>a= :Tabularize /=<CR>
           vmap <Leader>a= :Tabularize /=<CR>
+          nmap <Leader>as :Tabularize /\s<CR>
+          vmap <Leader>as :Tabularize /\s<CR>
+          nmap <Leader>a1= :Tabularize /^[^=]*\zs<CR>
+          vmap <Leader>a1= :Tabularize /^[^=]*\zs<CR>
           nmap <Leader>a: :Tabularize /:<CR>
           vmap <Leader>a: :Tabularize /:<CR>
           nmap <Leader>a:: :Tabularize /:\zs<CR>
@@ -489,7 +494,7 @@ augroup END
               endif
           endfunction
 
-        endif
+        "endif
      " }
 
      " Session List {
@@ -574,16 +579,16 @@ augroup END
         "inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
         "" Enable omni completion.
-        "autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        "autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        "autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-        "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-        "autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
         "" Enable heavy omni completion.
-        "if !exists('g:neocomplcache_omni_patterns')
-            "let g:neocomplcache_omni_patterns = {}
-        "endif
+        if !exists('g:neocomplcache_omni_patterns')
+            let g:neocomplcache_omni_patterns = {}
+        endif
         "let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
         ""autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
         "let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
@@ -598,7 +603,9 @@ augroup END
      "" }
 
       "Supertab {
-     let g:SuperTabDefaultCompletionType = "<c-n>"
+     "let g:SuperTabDefaultCompletionType = "<c-n>"
+     "let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+     let g:SuperTabDefaultCompletionType = "context"
      let g:SuperTabLongestHighlight = 1
 
      "}
@@ -612,7 +619,12 @@ augroup END
         autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
         autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
         "improve autocomplete menu color
-        highlight Pmenu ctermbg=238 gui=bold
+        "highlight Pmenu ctermbg=238 gui=bold
+    "}
+    
+    " Spice {
+        autocmd BufEnter *.cir,*.ana,*.sp set filetype=spice 
+        autocmd BufEnter *.cir,*.ana,*.sp set commentstring=*%s  " Fix folds
     "}
 
 " }
@@ -693,5 +705,12 @@ endfunction
         endif
     endif
 " }
+
+"inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+"\ "\<lt>C-n>" :
+"\ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+"\ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+"\ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+"imap <C-@> <C-Space>
 
 
